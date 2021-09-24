@@ -9,10 +9,20 @@ namespace SupportBank
     {
         static void Main(string[] args)
         {
+            //EXTRACT CSV USING LINQ
             List<Transaction> transactionList = File.ReadAllLines("C:\\Training\\SupportBank\\support-bank-resources-master\\Transactions2014.csv")
             .Skip(1)
             .Select(v => Transaction.FromCsv(v))
             .ToList();
+
+            //EXTRACT CSV USING FOR LOOP
+            // List<Transaction> transactionList = new List<Transaction>();
+            // string path = @"C:\Training\SupportBank\support-bank-resources-master\Transactions2014.csv";
+            // string[] lines = File.ReadAllLines(path);
+            // foreach(string line in lines.Skip(1))
+            // {
+            //     Transaction.FromCsv(line, transactionList);
+            // }
 
             List<Account> accountsList = new List<Account>();
             Dictionary<int, string> employeeDict = new Dictionary<int, string>();
@@ -91,10 +101,10 @@ namespace SupportBank
                 if (account.Name == name)
                 {
                     Console.WriteLine($"\nName: {account.Name}\r\nIncoming Transactions:");
-                    Console.WriteLine("{0,-10} {1,-10} {2,-20} {3,-10}", "Date", "From", "Description", "Amount");
+                    Console.WriteLine("{0,-15} {1,-15} {2,-40} {3,-10}", "Date", "From", "Description", "Amount");
                     foreach (Transaction transaction in account.IncomingTransactions)
                     {
-                        Console.WriteLine("{0,-10} {1,-10} {2,-20} {3,-10}",
+                        Console.WriteLine("{0,-15} {1,-15} {2,-40} {3,-10}",
                         transaction.Date.ToShortDateString(),
                         transaction.From,
                         transaction.Narrative,
@@ -102,11 +112,11 @@ namespace SupportBank
                     }
 
                     Console.WriteLine("\nOutgoing Transactions:");
-                    Console.WriteLine("{0,-10} {1,-10} {2,-20} {3,-10}", "Date", "To", "Description", "Amount");
+                    Console.WriteLine("{0,-15} {1,-15} {2,-40} {3,-10}", "Date", "To", "Description", "Amount");
 
                     foreach (Transaction transaction in account.OutgoingTransactions)
                     {
-                        Console.WriteLine("{0,-10} {1,-10} {2,-20} {3,-10}",
+                        Console.WriteLine("{0,-15} {1,-15} {2,-40} {3,-10}",
                         transaction.Date.ToShortDateString(),
                         transaction.To,
                         transaction.Narrative,
