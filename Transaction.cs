@@ -11,8 +11,7 @@ namespace SupportBank
         public string To;
         public string Narrative;
         public decimal Amount;
-        public int TotalOwed;
-        public int TotalOwes;
+       
 
 
         //CONSTRUCTOR

@@ -1,4 +1,4 @@
-using System;
+
 using System.Collections.Generic;
 
 namespace SupportBank
@@ -7,25 +7,27 @@ namespace SupportBank
     {
         //FIELDS
 
-        int AccountId { get; set; }
-        string Name { get; set; }
-        List<Transaction> IncomingTransactions;
-        List<Transaction> OutgoingTransactions;
+        public int AccountId;
+        public string Name;
+        public List<Transaction> IncomingTransactions;
+        public List<Transaction> OutgoingTransactions;
+
 
         //CONSTRUCTORS
 
         public Account(string name)
         {
-            AccountId += 1;
+            //AccountId += 1;
             Name = name;
-            List<Transaction> incomingTransactions = new List<Transaction>();
-            List<Transaction> outgoingTransactions = new List<Transaction>();
+            IncomingTransactions = new List<Transaction>();
+            OutgoingTransactions = new List<Transaction>();
+
         }
 
         //PROPERTIES
 
-
-        //METHODS
-
     }
+
+    //METHODS
+
 }
