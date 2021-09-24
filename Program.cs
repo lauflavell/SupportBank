@@ -90,7 +90,7 @@ namespace SupportBank
             {
                 if (account.Name == name)
                 {
-                    Console.WriteLine($"Name: {account.Name}\nIncoming Transactions:");
+                    Console.WriteLine($"\nName: {account.Name}\r\nIncoming Transactions:");
                     Console.WriteLine("{0,-10} {1,-10} {2,-20} {3,-10}", "Date", "From", "Description", "Amount");
                     foreach (Transaction transaction in account.IncomingTransactions)
                     {
@@ -136,9 +136,9 @@ namespace SupportBank
                 Console.WriteLine("\n");
                     foreach (KeyValuePair<int, string> employee in employeeDict)
                     {
-                        Console.WriteLine("{0}) {1}", employee.Key, employee.Value);
+                        Console.WriteLine("{0,3}) {1}", employee.Key, employee.Value);
                     }
-                    Console.Write("\nSelect an account:\n");
+                    Console.Write("\nSelect an account number:");
                     PrintAccount(accountsList, employeeDict[Convert.ToInt32(Console.ReadLine())]);
                     return true;
                 case "3":
