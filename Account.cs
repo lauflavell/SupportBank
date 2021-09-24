@@ -15,9 +15,9 @@ namespace SupportBank
 
         //CONSTRUCTORS
 
-        public Account(string name)
+        public Account(string name, int accountId)
         {
-            //AccountId += 1;
+            AccountId = accountId;
             Name = name;
             IncomingTransactions = new List<Transaction>();
             OutgoingTransactions = new List<Transaction>();

@@ -15,61 +15,47 @@ namespace SupportBank
             .ToList();
 
             List<Account> accountsList = new List<Account>();
-            CreateAllAccounts(transactionList, accountsList);
-            MainMenu(accountsList);
+            Dictionary<int, string> employeeDict = new Dictionary<int, string>();
+            CreateEmployeeDictionary(transactionList, employeeDict);
+            CreateAllAccounts(transactionList, accountsList, employeeDict);
+            MainMenu(accountsList, employeeDict);
 
-            // Console.WriteLine("\nWelcome to SupportBank\nPress 0 to List All acouunts\nPress 1 to select account");
-            // string input = Console.ReadLine();
-            // if (input == "0")
-            // {
-            //     PrintAllTransactions(accountsList);
-            // }
-            // else if (input == "1")
-            // {
-            //     Console.WriteLine("Please enter the account name you wish to print:");
-            //     string nameInput = Console.ReadLine();
-            //     PrintAccount(accountsList, nameInput);
-            // }
-            // else Console.WriteLine("Please enter valid number");
-
-
-
-
-            // foreach(Transaction transaction in transactionList)
-            // {
-            //     Console.WriteLine(transaction.Date.ToString("MM-dd-yyyy") + "\t" + transaction.To + "\t" + transaction.From + "\t" + transaction.Narrative + "\t" + transaction.Amount);
-            // }
         }
 
         //METHOD
 
-        public static void CreateAllAccounts(List<Transaction> transactionList, List<Account> accountsList)
+        public static void CreateEmployeeDictionary(List<Transaction> transactionList, Dictionary<int, string> employeeDict)
         {
-            List<string> employeeList = new List<string>();
+            var count = 1;
             foreach (Transaction transaction in transactionList)
             {
-                if (!employeeList.Exists(e => e == transaction.From))
+                if (!employeeDict.ContainsValue(transaction.From))
                 {
-                    employeeList.Add(transaction.From);
+                    employeeDict.Add(count, transaction.From);
+                    count++;
                 }
-                else if (!employeeList.Exists(e => e == transaction.To))
+                else if (!employeeDict.ContainsValue(transaction.To))
                 {
-                    employeeList.Add(transaction.To);
+                    employeeDict.Add(count, transaction.To);
+                    count++;
                 }
-
             }
 
-            foreach (string employee in employeeList)
+        }
+        public static void CreateAllAccounts(List<Transaction> transactionList, List<Account> accountsList, Dictionary<int, string> employeeDict)
+        {
+
+            foreach (KeyValuePair<int, string> employee in employeeDict)
             {
-                Account account = new Account(employee);
+                Account account = new Account(employee.Value, employee.Key);
 
                 foreach (Transaction transaction in transactionList)
                 {
-                    if (transaction.From == employee)
+                    if (transaction.From == employee.Value)
                     {
                         account.OutgoingTransactions.Add(transaction);
                     }
-                    else if (transaction.To == employee)
+                    else if (transaction.To == employee.Value)
                     {
                         account.IncomingTransactions.Add(transaction);
                     }
@@ -77,7 +63,6 @@ namespace SupportBank
 
                 accountsList.Add(account);
             }
-
         }
 
         public static void PrintAllTransactions(List<Account> accountsList)
@@ -132,7 +117,7 @@ namespace SupportBank
             }
         }
 
-        private static bool MainMenu(List<Account> accountsList)
+        private static bool MainMenu(List<Account> accountsList, Dictionary<int, string> employeeDict)
         {
             Console.Clear();
             Console.WriteLine("Welcome to Support Bank\n");
@@ -148,9 +133,13 @@ namespace SupportBank
                     PrintAllTransactions(accountsList);
                     return true;
                 case "2":
-                    Console.WriteLine("Please enter the account name you wish to print:");
-                    string nameInput = Console.ReadLine();
-                    PrintAccount(accountsList, nameInput);
+                Console.WriteLine("\n");
+                    foreach (KeyValuePair<int, string> employee in employeeDict)
+                    {
+                        Console.WriteLine("{0}) {1}", employee.Key, employee.Value);
+                    }
+                    Console.Write("\nSelect an account:\n");
+                    PrintAccount(accountsList, employeeDict[Convert.ToInt32(Console.ReadLine())]);
                     return true;
                 case "3":
                     return false;
